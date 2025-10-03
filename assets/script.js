@@ -1,7 +1,7 @@
 // CSV 파일 fetch 후 파싱
 async function loadBooks() {
   try {
-    const res = await fetch("books/books.csv");
+    const res = await fetch("data/books.csv");
     const text = await res.text();
     processCSV(text);
   } catch (err) {
