@@ -1,13 +1,13 @@
 async function loadBooks() {
   try {
-    const res = await fetch('data/books.csv');
+    const res = await fetch('data/books.csv'); // CSV 경로 확인
     const csvText = await res.text();
 
     const { data } = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
       dynamicTyping: true,
-      transformHeader: h => h.trim() // BOM 제거 및 공백 제거
+      transformHeader: h => h.trim() // BOM 및 공백 제거
     });
 
     const tabs = {

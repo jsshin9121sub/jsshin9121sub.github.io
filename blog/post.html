@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog Post</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Blog Post</h1>
+    <nav>
+      <a href="index.html">Back to Blog</a> |
+      <a href="../index.html">Home</a> |
+      <a href="../bookshelf.html">Bookshelf</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="post-content">Loading...</div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+    const container = document.getElementById('post-content');
+
+    if(file) {
+      fetch(file)
+        .then(res => res.text())
+        .then(mdText => {
+          container.innerHTML = marked.parse(mdText);
+        })
+        .catch(err => {
+          container.textContent = 'Markdown 파일을 불러오는 중 오류가 발생했습니다.';
+          console.error(err);
+        });
+    } else {
+      container.textContent = '불러올 Markdown 파일이 지정되지 않았습니다.';
+    }
+  </script>
+</body>
+</html>
+
