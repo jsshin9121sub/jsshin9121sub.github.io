@@ -6,7 +6,8 @@ async function loadBooks() {
     const { data } = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
-      dynamicTyping: true
+      dynamicTyping: true,
+      transformHeader: h => h.trim() // BOM 제거 및 공백 제거
     });
 
     const tabs = {
@@ -29,20 +30,18 @@ async function loadBooks() {
           grouped[year].push(b);
         });
 
-        Object.keys(grouped)
-          .sort((a,b) => b-a)
-          .forEach(year => {
-            const h2 = document.createElement('h2');
-            h2.textContent = year;
-            container.appendChild(h2);
+        Object.keys(grouped).sort((a,b) => b-a).forEach(year => {
+          const h2 = document.createElement('h2');
+          h2.textContent = year;
+          container.appendChild(h2);
 
-            grouped[year].forEach(b => {
-              const title = b['Title'] || '제목 없음';
-              const authors = b['Authors'] || '저자 없음';
-              const p = document.createElement('p');
-              p.textContent = `${title} - ${authors}`;
-              container.appendChild(p);
-            });
+          grouped[year].forEach(b => {
+            const title = b['Title'] || '제목 없음';
+            const authors = b['Authors'] || '저자 없음';
+            const p = document.createElement('p');
+            p.textContent = `${title} - ${authors}`;
+            container.appendChild(p);
+          });
         });
       } else {
         books.forEach(b => {
@@ -55,10 +54,7 @@ async function loadBooks() {
         });
       }
 
-      // 탭 active 클래스
-      document.querySelectorAll('.tabs button').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
       document.querySelector(`.tabs button[data-tab="${tabName}"]`).classList.add('active');
     }
 
