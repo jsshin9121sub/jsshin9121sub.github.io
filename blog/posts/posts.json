@@ -1,13 +1,5 @@
 [
-  {
-    "file": "2025-10-04-second-post.md",
-    "title": "두 번째 글 - Markdown 테스트",
-    "date": "2025-10-04"
-  },
-  {
-    "file": "2025-10-03-first-post.md",
-    "title": "2025-10-03 첫 번째 글",
-    "date": "2025-10-03"
-  }
+  {"file": "2025-10-04-second-post.md", "title": "두 번째 글 - Markdown 테스트", "date": "2025-10-04", "excerpt": "여기는 두 번째 포스트입니다."}
+,
+  {"file": "2025-10-03-first-post.md", "title": "2025-10-03 첫 번째 글", "date": "2025-10-03", "excerpt": "오늘 읽은 책과 코드 연습 기록입니다. ## 책 기록"}
 ]
-
