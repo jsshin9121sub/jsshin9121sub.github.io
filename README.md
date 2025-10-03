@@ -42,32 +42,21 @@
 ---
 
 ## 🗂️ Project Structure
+- index.html          # 홈
+- bookshelf.html      # 책 기록
+- blog/
+  - index.html        # 블로그 메인
+  - post.html         # 개별 포스트 뷰어
+  - posts/            # Markdown 포스트 저장
+    - 2025-10-03-first-post.md
+    - 2025-10-04-second-post.md
+    - posts.json      # Actions가 자동 생성
+- assets/
+  - style.css
+  - script.js
+- .github/workflows/
+  - update-posts.yml  # posts.json 자동 생성
 
-├── index.html          # 홈
-
-├── bookshelf.html      # 책 기록
-
-├── blog/
-
-│   ├── index.html      # 블로그 메인
-
-│   ├── post.html       # 개별 포스트 뷰어
-
-│   └── posts/          # Markdown 포스트 저장
-
-│       ├── 2025-10-03-first-post.md
-
-│       ├── 2025-10-04-second-post.md
-
-│       └── posts.json  # Actions가 자동 생성
-
-├── assets/
-
-│   ├── style.css
-
-│   └── script.js
-
-└── .github/workflows/update-posts.yml  # posts.json 자동 생성
 
 ---
 
