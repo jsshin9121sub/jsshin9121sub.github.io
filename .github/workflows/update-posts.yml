@@ -1,0 +1,49 @@
+name: Update Blog Posts JSON
+
+on:
+  push:
+    paths:
+      - 'blog/posts/*.md'
+      - '.github/workflows/update-posts.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate posts.json from Markdown headings
+        run: |
+          echo "[" > blog/posts/posts.json
+          first=true
+          for file in $(ls blog/posts/*.md | sort -r); do
+            filename=$(basename "$file")
+            # 날짜 부분 추출 (파일명 앞 10자리: YYYY-MM-DD)
+            datepart=$(echo "$filename" | cut -c1-10)
+
+            # 첫 번째 Markdown 헤더 (# ) 추출
+            title=$(grep -m 1 '^# ' "$file" | sed 's/^# //')
+            # 제목이 없으면 파일명으로 대체
+            if [ -z "$title" ]; then
+              title="$filename"
+            fi
+
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo "," >> blog/posts/posts.json
+            fi
+
+            echo "  {\"file\": \"$filename\", \"title\": \"$title\", \"date\": \"$datepart\"}" >> blog/posts/posts.json
+          done
+          echo "]" >> blog/posts/posts.json
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git add blog/posts/posts.json
+          git commit -m "Update posts.json [skip ci]" || echo "No changes to commit"
+          git push
+

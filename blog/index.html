@@ -9,17 +9,33 @@
   <header>
     <h1>Blog</h1>
     <nav>
-      <a href="../index.html">Home</a> |
-      <a href="../bookshelf.html">Bookshelf</a>
+      <a href="../index.html">🏠 Home</a> |
+      <a href="../bookshelf.html">📚 Bookshelf</a>
     </nav>
   </header>
 
   <main>
-    <ul>
-      <li><a href="post.html?file=posts/2025-10-03-first-post.md">2025-10-03: 첫 번째 글</a></li>
-      <li><a href="post.html?file=posts/2025-10-04-second-post.md">2025-10-04: 두 번째 글</a></li>
-    </ul>
-  </main>
-</body>
-</html>
+  <ul id="post-list">Loading...</ul>
+</main>
+
+<script>
+async function loadPosts() {
+  try {
+    const res = await fetch("posts/posts.json");
+    const posts = await res.json();
+    const list = document.getElementById("post-list");
+    list.innerHTML = "";
+
+    posts.forEach(p => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="post.html?file=posts/${p.file}">${p.title}</a> <small>(${p.date})</small>`;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error("포스트 목록 불러오기 실패:", err);
+    document.getElementById("post-list").textContent = "포스트 목록을 불러올 수 없습니다.";
+  }
+}
+loadPosts();
+</script>
 
