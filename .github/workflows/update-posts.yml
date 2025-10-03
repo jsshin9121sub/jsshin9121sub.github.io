@@ -6,6 +6,9 @@ on:
       - 'blog/posts/*.md'
       - '.github/workflows/update-posts.yml'
 
+permissions:
+  contents: write   # ← push 할 수 있도록 권한 추가
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,36 +16,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Generate posts.json from Markdown headings
+      - name: Generate posts.json from Markdown
         run: |
           echo "[" > blog/posts/posts.json
           first=true
           for file in $(ls blog/posts/*.md | sort -r); do
             filename=$(basename "$file")
-            # 날짜 부분 추출 (파일명 앞 10자리: YYYY-MM-DD)
             datepart=$(echo "$filename" | cut -c1-10)
-
-            # 첫 번째 Markdown 헤더 (# ) 추출
             title=$(grep -m 1 '^# ' "$file" | sed 's/^# //')
-            # 제목이 없으면 파일명으로 대체
             if [ -z "$title" ]; then
               title="$filename"
             fi
-
+            excerpt=$(grep -v '^# ' "$file" | grep -v '^\s*$' | head -n 2 | tr -d '"' | sed ':a;N;$!ba;s/\n/ /g')
+            if [ -z "$excerpt" ]; then
+              excerpt="(요약 없음)"
+            fi
             if [ "$first" = true ]; then
               first=false
             else
               echo "," >> blog/posts/posts.json
             fi
-
-            echo "  {\"file\": \"$filename\", \"title\": \"$title\", \"date\": \"$datepart\"}" >> blog/posts/posts.json
+            echo "  {\"file\": \"$filename\", \"title\": \"$title\", \"date\": \"$datepart\", \"excerpt\": \"$excerpt\"}" >> blog/posts/posts.json
           done
           echo "]" >> blog/posts/posts.json
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add blog/posts/posts.json
           git commit -m "Update posts.json [skip ci]" || echo "No changes to commit"
           git push
