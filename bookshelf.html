@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Logs for days and books - Bookshelf</title>
+  <title>Bookshelf - Logs for days and books</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -14,15 +14,16 @@
     </nav>
   </header>
 
-  <div class="tabs">
-    <button data-tab="all" class="active">All</button>
-    <button data-tab="reading">Reading</button>
-    <button data-tab="done">Done</button>
-  </div>
+  <main>
+    <input type="file" id="csvFile" accept=".csv">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="all">All</button>
+      <button class="tab-btn" data-tab="reading">Reading</button>
+      <button class="tab-btn" data-tab="done">Done</button>
+    </div>
+    <div id="tab-content">CSV 파일을 업로드 해주세요.</div>
+  </main>
 
-  <div id="tab-content"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="assets/script.js"></script>
 </body>
 </html>
