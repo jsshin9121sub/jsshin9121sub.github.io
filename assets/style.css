@@ -2,35 +2,96 @@ body {
   font-family: Arial, sans-serif;
   margin: 20px;
   line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  margin-bottom: 20px;
 }
 
 header h1 {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 nav a {
   margin-right: 10px;
   text-decoration: none;
   color: #333;
+  font-weight: bold;
 }
 
 nav a:hover {
   text-decoration: underline;
 }
 
+/* 탭 버튼 스타일 */
 .tabs {
   margin: 20px 0;
 }
 
 .tabs button {
+  padding: 8px 15px;
   margin-right: 5px;
-  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
   cursor: pointer;
+  border-radius: 5px 5px 0 0;
+  font-weight: bold;
+  transition: background-color 0.2s;
 }
 
+.tabs button:hover {
+  background-color: #eee;
+}
+
+.tabs button.active {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 탭 콘텐츠 */
+#tab-content {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #fff;
+  border-radius: 0 5px 5px 5px;
+}
+
+/* Done 책 연도 제목 */
 #tab-content h2 {
-  margin-top: 20px;
-  border-bottom: 1px solid #ccc;
+  margin-top: 25px;
+  border-bottom: 2px solid #ddd;
   padding-bottom: 5px;
+  color: #555;
+}
+
+/* 책 항목 카드 느낌 */
+#tab-content p {
+  background-color: #f7f7f7;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #4CAF50;
+}
+
+/* Reading 책 강조 색상 */
+#tab-content p.reading {
+  border-left: 4px solid #2196F3;
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 600px) {
+  body {
+    margin: 10px;
+  }
+  .tabs button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  #tab-content p {
+    font-size: 14px;
+  }
 }
 
