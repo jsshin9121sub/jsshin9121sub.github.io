@@ -1,16 +1,17 @@
-document.getElementById("csvFile").addEventListener("change", function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const text = e.target.result;
+// CSV 파일 fetch 후 파싱
+async function loadBooks() {
+  try {
+    const res = await fetch("books/books.csv");
+    const text = await res.text();
     processCSV(text);
-  };
-  reader.readAsText(file, "UTF-8");
-});
+  } catch (err) {
+    console.error("책 목록 불러오기 실패:", err);
+    document.getElementById("tab-content").textContent = "책 목록을 불러올 수 없습니다.";
+  }
+}
 
 function processCSV(text) {
-  const rows = text.split("\n").map(r => r.split("\t"));
+  const rows = text.trim().split("\n").map(r => r.split("\t"));
   const headers = rows[0];
   const books = rows.slice(1).map(r => {
     const obj = {};
@@ -47,4 +48,7 @@ function processCSV(text) {
     });
   });
 }
+
+// 초기 로드
+loadBooks();
 
